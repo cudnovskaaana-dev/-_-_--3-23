@@ -36,10 +36,4 @@
 
 Клиент на Vue 3 + Vite лежит в папке `frontend/`.
 
-### Запуск
-Нужен Node.js LTS.
-cd frontend
-npm install
-npm run dev
-
-Открыть адрес, который напишет Vite (обычно http://localhost:5173).
+Открыть в браузере: http://localhost:5173).
