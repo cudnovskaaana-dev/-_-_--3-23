@@ -16,7 +16,7 @@ const items = [
   {
     id: 2,
     number: 'КБ-02',
-    title: 'Повреждение магистрали прсле грозы',
+    title: 'Повреждение магистрали после грозы',
     siteId: 1,
     status: 'InProgress'
   }
