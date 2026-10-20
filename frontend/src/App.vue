@@ -8,16 +8,16 @@ const screen = ref('list')
 const items = [
   {
     id: 1,
-    number: 'КБ-101',
-    title: 'Обрыв кабеля на участке Москва-Замоскворечье',
+    number: 'КБ-01',
+    title: 'Обрыв кабеля на участке Астана-Центр',
     siteId: 3,
     status: 'New'
   },
   {
     id: 2,
-    number: 'КБ-102',
-    title: 'Повреждение магистрали Север-3 после шторма',
-    siteId: 5,
+    number: 'КБ-02',
+    title: 'Повреждение магистрали прсле грозы',
+    siteId: 1,
     status: 'InProgress'
   }
 ]
