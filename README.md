@@ -103,6 +103,6 @@ psql -d ris_cable -f ../db/seed.sql
 dotnet run
 ```
 
-Пароль задаётся локально и в репозиторий не помещается. В репозитории уже есть миграция `InitialCreate`; создавать её заново не нужно. SQL-схема, тестовые данные и запросы находятся в `db/`.
+Пароль задаётся локально. В репозитории уже есть миграция `InitialCreate`; создавать её заново не нужно. SQL-схема, тестовые данные и запросы находятся в `db/`.
 
 Postman-коллекция: [cable-tickets.postman_collection.json](docs/api-collection/cable-tickets.postman_collection.json).
