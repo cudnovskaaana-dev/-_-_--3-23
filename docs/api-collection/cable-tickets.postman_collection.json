@@ -1,0 +1,12 @@
+{
+  "info": { "name": "Казахтелеком — заявки на повреждение кабеля", "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json" },
+  "variable": [{ "key": "baseUrl", "value": "http://localhost:5000" }, { "key": "ticketId", "value": "1" }],
+  "item": [
+    { "name": "Создать заявку", "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["if (pm.response.code === 201) { pm.collectionVariables.set('ticketId', pm.response.json().id); }"] } }], "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"title\": \"Обрыв кабеля на участке Астана\",\n  \"siteId\": 1,\n  \"description\": \"Потеряна связь после земляных работ.\"\n}" }, "url": "{{baseUrl}}/api/cable-tickets" } },
+    { "name": "Список заявок", "request": { "method": "GET", "url": "{{baseUrl}}/api/cable-tickets" } },
+    { "name": "Одна заявка", "request": { "method": "GET", "url": "{{baseUrl}}/api/cable-tickets/{{ticketId}}" } },
+    { "name": "Назначить электромонтёра", "request": { "method": "PATCH", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"assigneeUserId\": 2\n}" }, "url": "{{baseUrl}}/api/cable-tickets/{{ticketId}}/assignee" } },
+    { "name": "Перевести в работу", "request": { "method": "PATCH", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"status\": \"InProgress\"\n}" }, "url": "{{baseUrl}}/api/cable-tickets/{{ticketId}}/status" } },
+    { "name": "Список — пустой результат", "request": { "method": "GET", "url": "{{baseUrl}}/api/cable-tickets?siteId=9999" } }
+  ]
+}

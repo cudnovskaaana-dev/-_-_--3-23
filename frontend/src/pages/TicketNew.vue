@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { addItem } from '../ticketsStore.js'
+import { createTicket } from '../api/tickets.js'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -16,12 +16,15 @@ const form = ref({
 const errorTitle = ref('')
 const errorSiteId = ref('')
 const errorDesc = ref('')
+const errorRequest = ref('')
+const submitting = ref(false)
 
-function onCreate() {
+async function onCreate() {
   // Сбрасываем старые ошибки
   errorTitle.value = ''
   errorSiteId.value = ''
   errorDesc.value = ''
+  errorRequest.value = ''
 
   let isValid = true
 
@@ -48,14 +51,24 @@ function onCreate() {
   // Если есть ошибки — останавливаемся (return)
   if (!isValid) return
 
-  // Если всё ок — добавляем заявку в массив!
-  addItem(cleanTitle, form.value.siteId, cleanDesc)
+  submitting.value = true
+  try {
+    const response = await createTicket({ title: cleanTitle, siteId: form.value.siteId, description: cleanDesc })
+    if (!response.ok) {
+      errorRequest.value = response.status === 400 ? 'Проверьте поля заявки.' : 'Сервер сломался. Попробуйте позже.'
+      return
+    }
+    // Номер и id назначаются источником данных и берутся из ответа.
+    await response.json()
 
-  // Очищаем форму
-  form.value = { title: '', siteId: 0, description: '' }
+    form.value = { title: '', siteId: 0, description: '' }
 
-  // Переходим на страницу списка
-  router.push('/')
+    await router.push('/')
+  } catch {
+    errorRequest.value = 'Нет связи. Проверьте адрес API и доступность сервера.'
+  } finally {
+    submitting.value = false
+  }
 }
 </script>
 
@@ -79,7 +92,8 @@ function onCreate() {
       <textarea id="description" v-model="form.description" name="description"></textarea>
       <span v-if="errorDesc" class="error">{{ errorDesc }}</span>
 
-      <button type="submit">Создать</button>
+      <span v-if="errorRequest" class="error" role="alert">{{ errorRequest }}</span>
+      <button type="submit" :disabled="submitting">{{ submitting ? 'Отправка…' : 'Создать' }}</button>
     </form>
   </main>
 </template>

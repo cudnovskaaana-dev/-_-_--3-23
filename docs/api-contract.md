@@ -7,6 +7,7 @@
 | Метод и путь | Тело | Успех | Ошибка |
 |---|---|---|---|
 | GET /api/cable-tickets | — | 200, массив (пустой — 200 и []) | — |
+| GET /api/cable-tickets?siteId={id}&assigneeUserId={id} | — | 200, отфильтрованный массив | — |
 | GET /api/cable-tickets/{id} | — | 200, объект | 404 |
 | POST /api/cable-tickets | title, siteId, description | 201, id, number, status: New | 400 |
 | PATCH /api/cable-tickets/{id}/assignee | assigneeUserId | 200 | 404 |

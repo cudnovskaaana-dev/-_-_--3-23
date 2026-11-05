@@ -12,18 +12,29 @@
 
 
 
-## Лабораторная работа 1.
-
-| № | Тема | Статус | Ссылка |
-|---|------|--------|--------|
-| 1 | Анализ, требования и выбор темы | 🟡 В работе |[docs/lab-01-requirements.md]|
-
-Стек
+## Стек
 
 - Vue 3
 - ASP.NET Core
 - PostgreSQL
 Структура репозитория
+## Лабораторные работы и материалы
+
+| № | Тема | Материалы |
+|---|---|---|
+| 1 | Требования | [ТЗ](docs/lab-01-requirements.md) |
+| 2 | Архитектура и модель данных | [Отчёт](docs/reports/lab-02.md) |
+| 3 | Vue: каркас и экраны | [Отчёт](docs/reports/lab-03.md) |
+| 4 | Vue: компоненты и маршруты | [Отчёт](docs/reports/lab-04.md) |
+| 5 | Vue: форма и список в памяти | [Отчёт](docs/reports/lab-05.md) |
+| 6 | Vue-клиент API | [Отчёт](docs/reports/lab-06.md) |
+| 7 | Каркас Web API | [Отчёт](docs/reports/lab-07.md) |
+| 8 | REST API заявок | [Отчёт](docs/reports/lab-08.md) |
+| 9 | PostgreSQL и SQL | [Отчёт](docs/reports/lab-09.md) |
+| 10 | EF Core и PostgreSQL | [Отчёт](docs/reports/lab-10.md) |
+
+ЛР6–10 содержат исходники и отчёты с фактическими результатами проверок. В отчёте ЛР6 пояснено, почему mock не отображает HTTP-трафик в Network.
+
 ## Лабораторная работа 2. Архитектура и модель данных
 
 - [Архитектура](docs/architecture.md)
@@ -61,3 +72,37 @@
 - [Отчёт по ЛР5](docs/reports/lab-05.md)
 - Хранилище данных: `frontend/src/ticketsStore.js`
 - Форма создания: `frontend/src/pages/TicketNew.vue`
+
+## Лабораторная работа 6. Vue-клиент API
+
+В `frontend/src/api/` находятся интерфейс клиента и mock. Для локального запуска выполните:
+
+```bash
+cd frontend
+npm ci
+npm run dev
+```
+
+По умолчанию используется mock. Для подключения backend задайте `VITE_USE_MOCK=false` в `frontend/.env` и перезапустите Vite.
+
+## Лабораторные работы 7–10. ASP.NET Core и PostgreSQL
+
+- API: `http://localhost:5000`
+- Swagger: `http://localhost:5000/swagger`
+- Проверка процесса: `http://localhost:5000/health` (не проверяет создание заявки)
+- Информация о приложении: `http://localhost:5000/info`
+
+После установки PostgreSQL выполните из папки `backend`:
+
+```bash
+dotnet restore
+dotnet tool restore
+dotnet user-secrets set "ConnectionStrings:Default" "Host=localhost;Port=5432;Database=ris_cable;Username=postgres;Password=YOUR_PASSWORD"
+dotnet ef database update
+psql -d ris_cable -f ../db/seed.sql
+dotnet run
+```
+
+Пароль задаётся локально и в репозиторий не помещается. В репозитории уже есть миграция `InitialCreate`; создавать её заново не нужно. SQL-схема, тестовые данные и запросы находятся в `db/`.
+
+Postman-коллекция: [cable-tickets.postman_collection.json](docs/api-collection/cable-tickets.postman_collection.json).
